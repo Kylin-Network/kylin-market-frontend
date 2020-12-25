@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
-
-import React, { useContext, useRef } from 'react';
+import * as React from 'react';
+import { useContext, useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
 import Tabs from '@polkadot/react-components/Tabs';
@@ -28,7 +28,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
   const { t } = useTranslation();
   const { api } = useApi();
   const { lastHeaders } = useContext(BlockAuthorsContext);
-  const events = useContext(EventsContext);
+  const events: KeyedEvent[] = useContext(EventsContext);
 
   const itemsRef = useRef([
     {

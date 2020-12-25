@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useRef } from 'react';
+import * as React from 'react'
 
 import { HeaderExtended } from '@polkadot/api-derive';
 import { Table } from '@polkadot/react-components';
@@ -16,7 +16,7 @@ interface Props {
 function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = React.useRef([
     [t('recent blocks'), 'start', 3]
   ]);
 

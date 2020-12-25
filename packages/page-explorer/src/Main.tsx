@@ -3,7 +3,7 @@
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
 
-import React from 'react';
+import * as React from 'react';
 
 import { HeaderExtended } from '@polkadot/api-derive';
 import { Columar, Column } from '@polkadot/react-components';
