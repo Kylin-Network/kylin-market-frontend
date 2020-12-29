@@ -19,8 +19,8 @@ function OracleMarketApp({ basePath, className }: Props): React.ReactElement<Pro
   const itemsRef = useRef([
     {
       isRoot: true,
-      name: 'services',
-      text: t<string>('Services')
+      name: 'overview',
+      text: t<string>('Marketplace')
     },
     {
       hasParams: true,
