@@ -2115,6 +2115,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-oracle-market@workspace:packages/page-oracle-market":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-oracle-market@workspace:packages/page-oracle-market"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@polkadot/react-components": ^0.71.3-17
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-parachains@workspace:packages/page-parachains":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-parachains@workspace:packages/page-parachains"

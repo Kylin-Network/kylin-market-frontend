@@ -4,7 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { Route } from './types';
 
-import Component from '@polkadot/app-explorer';
+import Component from '@polkadot/app-oracle-market';
 
 export default function create (t: TFunction): Route {
   return {
