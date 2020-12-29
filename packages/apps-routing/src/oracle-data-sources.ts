@@ -4,7 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { Route } from './types';
 
-import Component from '@polkadot/app-explorer';
+import Component from '@polkadot/app-oracle-data-sources';
 
 export default function create (t: TFunction): Route {
   return {
@@ -15,7 +15,7 @@ export default function create (t: TFunction): Route {
     },
     group: 'network',
     icon: 'server',
-    name: 'Oracle DataSource',
-    text: t('nav.oracle_datasource', 'Oracle DataSource', { ns: 'apps-routing' })
+    name: 'data-sources',
+    text: t('nav.oracle-data-sources', 'Oracle data sources', { ns: 'apps-routing' })
   };
 }

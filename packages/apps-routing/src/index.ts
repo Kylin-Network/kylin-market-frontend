@@ -13,7 +13,7 @@ import contracts from './contracts';
 import council from './council';
 import democracy from './democracy';
 import explorer from './explorer';
-import datasource from './oracle_datasource';
+import dataSource from './oracle-data-sources';
 import marketplace from './marketplace';
 import extrinsics from './extrinsics';
 import genericAsset from './generic-asset';
@@ -36,7 +36,7 @@ export default function create (t: TFunction): Routes {
     accounts(t),
     addresses(t),
     explorer(t),
-    datasource(t),
+    dataSource(t),
     marketplace(t),
     claims(t),
     poll(t),

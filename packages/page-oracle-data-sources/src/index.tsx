@@ -6,7 +6,7 @@ import Tabs from '@polkadot/react-components/Tabs';
 
 import { useTranslation } from './translate';
 import Main from './Main'
-import ServiceInfo from './ServiceInfo'
+import DataSourceInfo from './DataSourceInfo'
 
 interface Props {
   basePath: string;
@@ -19,13 +19,13 @@ function OracleMarketApp({ basePath, className }: Props): React.ReactElement<Pro
   const itemsRef = useRef([
     {
       isRoot: true,
-      name: 'services',
-      text: t<string>('Services')
+      name: 'overview',
+      text: t<string>('Data sources')
     },
     {
       hasParams: true,
       name: 'query',
-      text: t<string>('Service details')
+      text: t<string>('Data source details')
     }
   ]);
   return (
@@ -37,7 +37,7 @@ function OracleMarketApp({ basePath, className }: Props): React.ReactElement<Pro
         />
       </header>
       <Switch>
-        <Route path={`${basePath}/query`}><ServiceInfo /></Route>
+        <Route path={`${basePath}/query`}><DataSourceInfo /></Route>
         <Route>
           <Main />
         </Route>

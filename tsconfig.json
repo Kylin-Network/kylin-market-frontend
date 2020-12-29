@@ -42,6 +42,8 @@
       "@polkadot/app-js/*": [ "packages/page-js/src/*" ],
       "@polkadot/app-oracle-market": [ "packages/page-oracle-market/src" ],
       "@polkadot/app-oracle-market/*": [ "packages/page-oracle-market/src/*" ],
+      "@polkadot/app-oracle-data-sources": [ "packages/page-oracle-data-sources/src" ],
+      "@polkadot/app-oracle-data-sources/*": [ "packages/page-oracle-data-sources/src/*" ],
       "@polkadot/app-parachains": [ "packages/page-parachains/src" ],
       "@polkadot/app-parachains/*": [ "packages/page-parachains/src/*" ],
       "@polkadot/app-poll": [ "packages/page-poll/src" ],

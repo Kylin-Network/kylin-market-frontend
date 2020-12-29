@@ -13,6 +13,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'map-marked-alt',
     name: 'marketplace',
-    text: t('nav.oracle_market', 'Oracle marketplace', { ns: 'apps-routing' })
+    text: t('nav.oracle-marketplace', 'Oracle marketplace', { ns: 'apps-routing' })
   };
 }
