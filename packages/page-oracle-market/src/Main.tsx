@@ -1,5 +1,4 @@
 import type { KeyedEvent } from '@polkadot/react-query/types';
-
 import * as React from 'react';
 
 import { HeaderExtended } from '@polkadot/api-derive';
