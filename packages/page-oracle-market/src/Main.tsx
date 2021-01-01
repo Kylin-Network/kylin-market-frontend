@@ -1,20 +1,23 @@
-import type { KeyedEvent } from '@polkadot/react-query/types';
-import * as React from 'react';
-
-import { HeaderExtended } from '@polkadot/api-derive';
-import { Columar, Column } from '@polkadot/react-components';
+import * as React from "react";
+import type { Service } from "./types";
+import { Columar, Column } from "@polkadot/react-components";
 
 interface Props {
-  events: KeyedEvent[];
-  headers: HeaderExtended[];
+  services: Service[];
 }
 
-function Main (): React.ReactElement<Props> {
+function ServiceItem() {
+  return <div>service</div>;
+}
+
+function Main({ services }: Props): React.ReactElement<Props> {
   return (
     <>
       <Columar>
         <Column>
-          services
+          {services.map((service) => (
+            <ServiceItem key={service.serviceDataId} />
+          ))}
         </Column>
       </Columar>
     </>

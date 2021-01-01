@@ -1,21 +1,23 @@
-import type { KeyedEvent } from '@polkadot/react-query/types';
-import * as React from 'react';
-import { useRef } from 'react';
+import type { Service } from './types';
+import React, { useRef, useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import Tabs from '@polkadot/react-components/Tabs';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from './translate';
 import Main from './Main'
 import ServiceInfo from './ServiceInfo'
 
+type Services = Service[]
+
 interface Props {
   basePath: string;
   className?: string;
-  newEvents?: KeyedEvent[];
 }
 
 function OracleMarketApp({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const itemsRef = useRef([
     {
       isRoot: true,
@@ -28,6 +30,15 @@ function OracleMarketApp({ basePath, className }: Props): React.ReactElement<Pro
       text: t<string>('Service details')
     }
   ]);
+  const [services, setServices] = useState<Services>([])
+
+  useEffect((): void => {
+    api.isReady.then((): void => {
+      // fetch services
+      setServices([])
+    }).catch(console.error);
+  }, []);
+
   return (
     <main className={className}>
       <header>
@@ -39,7 +50,7 @@ function OracleMarketApp({ basePath, className }: Props): React.ReactElement<Pro
       <Switch>
         <Route path={`${basePath}/query`}><ServiceInfo /></Route>
         <Route>
-          <Main />
+          <Main services={services}/>
         </Route>
       </Switch>
     </main>

@@ -1,8 +1,6 @@
 import type { BlockNumber } from '@polkadot/types/interfaces';
-
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 function Entry (): React.ReactElement | null {
