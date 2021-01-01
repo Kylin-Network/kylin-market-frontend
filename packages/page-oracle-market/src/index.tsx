@@ -1,14 +1,15 @@
-import type { Service } from './types';
-import React, { useRef, useEffect, useState } from 'react';
-import { Route, Switch } from 'react-router';
-import Tabs from '@polkadot/react-components/Tabs';
-import { useApi } from '@polkadot/react-hooks';
+import type { Service } from "./types";
+import React, { useRef, useEffect, useState } from "react";
+import { Route, Switch } from "react-router";
+import Tabs from "@polkadot/react-components/Tabs";
+import { useApi } from "@polkadot/react-hooks";
 
-import { useTranslation } from './translate';
-import Main from './Main'
-import ServiceInfo from './ServiceInfo'
+import { useTranslation } from "./translate";
+import Main from "./Main";
+import ServiceInfo from "./ServiceInfo";
+import { serviceData } from "./mock-data";
 
-type Services = Service[]
+type Services = Service[];
 
 interface Props {
   basePath: string;
@@ -21,36 +22,37 @@ function OracleMarketApp({ basePath, className }: Props): React.ReactElement<Pro
   const itemsRef = useRef([
     {
       isRoot: true,
-      name: 'services',
-      text: t<string>('Services')
+      name: "services",
+      text: t<string>("Services"),
     },
     {
       hasParams: true,
-      name: 'query',
-      text: t<string>('Service details')
-    }
+      name: "query",
+      text: t<string>("Service details"),
+    },
   ]);
-  const [services, setServices] = useState<Services>([])
+  const [services, setServices] = useState<Services>([]);
 
   useEffect((): void => {
-    api.isReady.then((): void => {
-      // fetch services
-      setServices([])
-    }).catch(console.error);
+    api.isReady
+      .then((): void => {
+        // fetch and set services
+        setServices(serviceData);
+      })
+      .catch(console.error);
   }, []);
 
   return (
     <main className={className}>
       <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
+        <Tabs basePath={basePath} items={itemsRef.current} />
       </header>
       <Switch>
-        <Route path={`${basePath}/query`}><ServiceInfo /></Route>
+        <Route path={`${basePath}/query`}>
+          <ServiceInfo />
+        </Route>
         <Route>
-          <Main services={services}/>
+          <Main services={services} />
         </Route>
       </Switch>
     </main>

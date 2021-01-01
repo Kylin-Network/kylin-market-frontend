@@ -1,27 +1,27 @@
 import * as React from "react";
 import type { Service } from "./types";
-import { Columar, Column } from "@polkadot/react-components";
+import { Columar } from "@polkadot/react-components";
+import styled from "styled-components";
+import ServiceItem from "./ServiceItem";
 
 interface Props {
   services: Service[];
 }
 
-function ServiceItem() {
-  return <div>service</div>;
-}
-
 function Main({ services }: Props): React.ReactElement<Props> {
   return (
-    <>
+    <div>
       <Columar>
-        <Column>
-          {services.map((service) => (
-            <ServiceItem key={service.serviceDataId} />
-          ))}
-        </Column>
+        {services.map(
+          (service): React.ReactNode => (
+            <ServiceItem key={service.serviceDataId} value={service} />
+          )
+        )}
       </Columar>
-    </>
+    </div>
   );
 }
 
-export default React.memo(Main);
+export default React.memo(styled(Main)`
+  background-color: #fff;
+`);
