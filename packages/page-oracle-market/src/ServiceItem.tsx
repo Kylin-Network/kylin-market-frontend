@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import type { Service } from "./types";
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 
 function ServiceItem({ value, className = "" }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
+    <Link className={className} to={`/marketplace/query/${value.serviceDataId}`}>
       <div className="ui--ServiceItem-badge">
         <img src={value.serviceThumb} />
       </div>
@@ -21,14 +22,14 @@ function ServiceItem({ value, className = "" }: Props): React.ReactElement<Props
           <div>{value.serviceDesc}</div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
 export default React.memo(styled(ServiceItem)`
   width: 25%;
   display: flex;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
   .ui--ServiceItem-badge {
     display: flex;
     align-items: center;
