@@ -51,6 +51,9 @@ function OracleMarketApp({ basePath, className }: Props): React.ReactElement<Pro
         <Route path={`${basePath}/query/:value`}>
           <ServiceInfo />
         </Route>
+        <Route path={`${basePath}/query`}>
+          <ServiceInfo />
+        </Route>
         <Route>
           <Main services={services} />
         </Route>
