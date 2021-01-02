@@ -17,9 +17,9 @@ function ServiceItem({ value, className = "" }: Props): React.ReactElement<Props
 
       <div className="ui--ServiceItem-info">
         <h4 className="ui--ServiceItem-name">{value.serviceName}</h4>
-        <div className="ui--ServiceItem-desc">
-          <div>#{value.serviceDataId}</div>
-          <div>{value.serviceDesc}</div>
+        <div>
+          <div className="ui--ServiceItem-num">#{value.serviceDataId}</div>
+          <div className="ui--ServiceItem-desc">{value.serviceDesc}</div>
         </div>
       </div>
     </Link>
@@ -53,8 +53,12 @@ export default React.memo(styled(ServiceItem)`
     font-weight: 600;
     font-size: 16px;
   }
+  .ui--ServiceItem-num {
+    color: rgba(78, 78, 78, 0.66);
+    line-height: 1.5;
+  }
   .ui--ServiceItem-desc {
-    color: #6a737d;
+    color: #4e4e4e;
     word-break: break-word;
     word-wrap: break-word;
     overflow-wrap: break-word;
