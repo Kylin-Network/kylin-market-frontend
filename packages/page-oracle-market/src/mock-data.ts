@@ -56,7 +56,8 @@ export function useServices(initialValue: Service[] = []) {
         for (let v of result) {
           if (!v || !v.output || v.result.isErr) {
             console.info("not found service", i);
-            continue;
+            setServices(items);
+            return;
           }
         }
         let item = {
