@@ -4,24 +4,7 @@ import useWeight from "@polkadot/app-contracts/useWeight";
 import BN from "bn.js";
 import { BN_ZERO } from "@polkadot/util";
 import { getContractForAddress } from "@polkadot/app-contracts/Contracts/util";
-import { useCallback, useState, useEffect } from "react";
-
-export function useServiceInfo(
-  initialValue: Service[] = [],
-  onChangeServices?: (_: Service[]) => void
-): [Service[], (_: Service[]) => void] {
-  const [services, setServices] = useState<Service[]>(initialValue);
-  const _setServices = useCallback(
-    (services: Service[] = []): void => {
-      setServices(services);
-
-      onChangeServices && onChangeServices(services);
-    },
-    [onChangeServices]
-  );
-
-  return [services, _setServices];
-}
+import { useState, useEffect } from "react";
 
 export function useServices(initialValue: Service[] = []) {
   const [accountId] = useAccountId();
@@ -75,6 +58,52 @@ export function useServices(initialValue: Service[] = []) {
   }, []);
 
   return [services];
+}
+
+export function useService(query: number) {
+  const [accountId] = useAccountId();
+  const [service, setService] = useState<Service>();
+  const { api } = useApi();
+  const contract: any = getContractForAddress(api, "5D7VRXWDyZxj9HfPVcBcACPxesUJAMWoHtwaNbhVzcATdKTH");
+  const weight = useWeight();
+  const [value] = useFormField<BN>(BN_ZERO);
+
+  if (!contract) {
+    console.error("cannot find the target contract~");
+    return [service];
+  }
+
+  useEffect(() => {
+    async function queryInfo(messageIndex: number, params: number[]) {
+      let message = contract.abi.messages[messageIndex];
+      const data = {
+        gasLimit: weight.isEmpty ? -1 : weight.weight,
+        value: message.isPayable ? value : 0,
+      };
+      return await contract.read(message, data, ...params).send(accountId);
+    }
+
+    async function fetchServiceDetail() {
+      let params = [query];
+      const result = await Promise.all([queryInfo(2, params), queryInfo(3, params), queryInfo(4, params)]);
+      for (let v of result) {
+        if (!v || !v.output || v.result.isErr) {
+          console.info("not found service", query);
+          return;
+        }
+      }
+      let item = {
+        serviceName: parseContractHex(result[0].output.toHex()),
+        serviceDataId: query,
+        serviceDesc: parseContractHex(result[1].output.toHex()),
+        serviceThumb: parseContractHex(result[2].output.toHex()),
+      };
+      setService(item);
+    }
+    fetchServiceDetail();
+  }, []);
+
+  return [service];
 }
 
 function parseContractHex(hex: string): string {

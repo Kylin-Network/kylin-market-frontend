@@ -1,30 +1,18 @@
-import React, { useEffect, useState } from "react";
+import * as React from "react";
 import { useParams } from "react-router-dom";
-import { useApi } from "@polkadot/react-hooks";
 import styled from "styled-components";
 import { Columar } from "@polkadot/react-components";
+import { useService } from "./mock-data";
 
 interface Props {
   className?: string;
 }
 
 function ServiceInfo({ className = "" }: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
   const { value } = useParams<{ value: string }>();
-  const [stateValue, setStateValue] = useState<string | undefined>(value);
+  const [service] = useService(parseInt(value));
 
-  useEffect((): void => {
-    if (value && value !== stateValue) {
-      setStateValue(value);
-      api.isReady
-        .then((): void => {
-          // fetch and set service detail
-        })
-        .catch(console.error);
-    }
-  }, [value]);
-
-  if (!stateValue) {
+  if (!service) {
     return null;
   }
 
@@ -32,12 +20,12 @@ function ServiceInfo({ className = "" }: Props): React.ReactElement<Props> | nul
     <Columar className={className}>
       <div className="ui--ServiceInfo-left">
         <div className="ui--ServiceInfo-badge">
-          <img src="https://avatars0.githubusercontent.com/ml/30?s=62&v=4" />
+          <img src={service.serviceThumb} />
         </div>
       </div>
       <div className="ui--ServiceInfo-right">
-        <div className="ui--ServiceInfo-name">kylin-name-{stateValue}</div>
-        <div className="ui--ServiceInfo-desc">kylin-desc-{stateValue}</div>
+        <div className="ui--ServiceInfo-name">{service.serviceName}</div>
+        <div className="ui--ServiceInfo-desc">{service.serviceDesc}</div>
       </div>
     </Columar>
   );
