@@ -2,14 +2,14 @@ import type { Service } from "./types";
 import React, { useRef, useEffect, useState } from "react";
 import { Route, Switch } from "react-router";
 import Tabs from "@polkadot/react-components/Tabs";
-import { useApi } from "@polkadot/react-hooks";
+// import { useApi } from "@polkadot/react-hooks";
 
 import { useTranslation } from "./translate";
 import Main from "./Main";
 import ServiceInfo from "./ServiceInfo";
-import {serviceData, initServiceInfo, useServiceInfo} from "./mock-data";
+import { useServices } from "./mock-data";
 
-type Services = Service[];
+// type Services = Service[];
 
 interface Props {
   basePath: string;
@@ -18,9 +18,9 @@ interface Props {
 
 function OracleMarketApp({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const [services, setServices] = useServiceInfo();
-  initServiceInfo();
+  // const { api } = useApi();
+
+  const [services] = useServices([]);
   const itemsRef = useRef([
     {
       isRoot: true,
@@ -33,16 +33,7 @@ function OracleMarketApp({ basePath, className }: Props): React.ReactElement<Pro
       text: t<string>("Service details"),
     },
   ]);
-
-  useEffect((): void => {
-    api.isReady
-      .then((): void => {
-        // fetch and set services
-        // initServiceInfo();
-      })
-      .catch(console.error);
-  }, []);
-
+  console.log("marketplace services...", services);
   return (
     <main className={className}>
       <header>
