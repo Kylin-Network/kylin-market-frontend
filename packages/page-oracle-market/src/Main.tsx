@@ -1,15 +1,16 @@
 import * as React from "react";
 
 import { Columar } from "@polkadot/react-components";
-import type { Service } from "./types";
 import ServiceItem from "./ServiceItem";
+import { useServices } from "./mock-data";
 
 interface Props {
-  services: Service[];
   className?: string;
 }
 
-function Main({ services, className = "" }: Props): React.ReactElement<Props> {
+function Main({ className = "" }: Props): React.ReactElement<Props> {
+  const [services] = useServices([]);
+  console.log("marketplace services...", services);
   return (
     <Columar>
       {services.map(
