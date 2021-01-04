@@ -83,6 +83,10 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         .read(message, { gasLimit: weight.isEmpty ? -1 : weight.weight, value: message.isPayable ? value : 0 }, ...params)
         .send(accountId)
         .then((result): void => {
+          console.info("read contract", contract);
+          console.info("read message", messageIndex, message);
+          console.info("read params", params);
+          console.info("read result", result);
           setOutcomes([{
             ...result,
             from: accountId,

@@ -7,7 +7,7 @@ import { useApi } from "@polkadot/react-hooks";
 import { useTranslation } from "./translate";
 import Main from "./Main";
 import ServiceInfo from "./ServiceInfo";
-import { serviceData } from "./mock-data";
+import {serviceData, initServiceInfo, useServiceInfo} from "./mock-data";
 
 type Services = Service[];
 
@@ -19,6 +19,8 @@ interface Props {
 function OracleMarketApp({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const [services, setServices] = useServiceInfo();
+  initServiceInfo();
   const itemsRef = useRef([
     {
       isRoot: true,
@@ -31,13 +33,12 @@ function OracleMarketApp({ basePath, className }: Props): React.ReactElement<Pro
       text: t<string>("Service details"),
     },
   ]);
-  const [services, setServices] = useState<Services>([]);
 
   useEffect((): void => {
     api.isReady
       .then((): void => {
         // fetch and set services
-        setServices(serviceData);
+        // initServiceInfo();
       })
       .catch(console.error);
   }, []);
