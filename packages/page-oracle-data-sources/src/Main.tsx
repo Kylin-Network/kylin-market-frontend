@@ -40,7 +40,7 @@ function Main({ className = "" }: Props): React.ReactElement<Props> | null {
         </div>
         <div className="ui--dataSource--body">
           <div>{dataSource.dataId}</div>
-          <div>{dataSource.url}</div>
+          <a href={dataSource.url}>{dataSource.url}</a>
           <div>{dataSource.data}</div>
         </div>
       </div>
