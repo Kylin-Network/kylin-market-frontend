@@ -8,7 +8,7 @@ interface Props {
   className?: string;
 }
 
-function Main({ className = "" }: Props): React.ReactElement<Props> {
+function Main({ className = "" }: Props): React.ReactElement<Props> | null {
   const [dataSource, setDataSource] = useState<DataSource>({});
   console.log("dataSource...", dataSource);
 
@@ -21,20 +21,50 @@ function Main({ className = "" }: Props): React.ReactElement<Props> {
     });
   };
 
+  if (!Object.keys(dataSource).length) {
+    return (
+      <div className={className}>
+        <Query onQuery={_onQuery} />
+      </div>
+    );
+  }
+
   return (
     <div className={className}>
       <Query onQuery={_onQuery} />
-      <div className="ui--dataSources">
-        <div>{dataSource.dataId}</div>
-        <div>{dataSource.url}</div>
-        <div>{dataSource.data}</div>
+      <div className="ui--dataSource">
+        <div className="ui--dataSource--header">
+          <div>id</div>
+          <div>url</div>
+          <div>data</div>
+        </div>
+        <div className="ui--dataSource--body">
+          <div>{dataSource.dataId}</div>
+          <div>{dataSource.url}</div>
+          <div>{dataSource.data}</div>
+        </div>
       </div>
     </div>
   );
 }
 
 export default React.memo(styled(Main)`
-  .ui--dataSources {
+  .ui--dataSource {
     background-color: #fff;
+    border: 1px solid #eeecea;
+    padding: 24px;
+  }
+  .ui--dataSource--header,
+  .ui--dataSource--body {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+  }
+  .ui--dataSource--header {
+    color: rgba(78, 78, 78, 0.66);
+  }
+  .ui--dataSource--body {
+    padding-top: 16px;
+    color: #4c4c4c;
   }
 `);
