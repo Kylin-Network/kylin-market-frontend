@@ -9442,9 +9442,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"glob-to-regexp@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "glob-to-regexp@npm:0.4.1"
+"glob-to-regexp@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "glob-to-regexp@npm:0.3.0"
   checksum: 6093c15d9f92d010998dd7cc7a5ba4e74eea83878d3f8c2616c6935dab9a79bf31ca7ddc214604b84a87c65b9e51481221e325be68f5fe6db8ed27dc76a5230f
   languageName: node
   linkType: hard
@@ -19073,7 +19073,7 @@ fsevents@~2.1.2:
   version: 2.1.0
   resolution: "watchpack@npm:2.1.0"
   dependencies:
-    glob-to-regexp: ^0.4.1
+    glob-to-regexp: ^0.3.0
     graceful-fs: ^4.1.2
   checksum: a02b3f4023558e8bab20473ca0cfecc0624012272f73f2cac1c0d8fbbd6cfafda2975ff5a3ce3d9b0b1f72770868fe02ff043fceafcc6324acd11fc4cd16b973
   languageName: node
@@ -19323,7 +19323,7 @@ fsevents@~2.1.2:
     enhanced-resolve: ^5.3.1
     eslint-scope: ^5.1.1
     events: ^3.2.0
-    glob-to-regexp: ^0.4.1
+    glob-to-regexp: ^0.3.0
     graceful-fs: ^4.2.4
     json-parse-better-errors: ^1.0.2
     loader-runner: ^4.1.0
