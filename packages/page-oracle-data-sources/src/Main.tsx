@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import Query from "./Query";
 import type { DataSource } from "./types";
+import {useApi} from "@polkadot/react-hooks";
 
 interface Props {
   className?: string;
@@ -14,11 +15,23 @@ function Main({ className = "" }: Props): React.ReactElement<Props> | null {
 
   const _onQuery = (): void => {
     // fetch data
-    setDataSource({
-      dataId: 1000000,
-      url: "https://xxx.com/xxx",
-      data: "4000",
-    });
+    const { api } = useApi();
+    console.info("api info", api, api.query.kylinOcwModule);
+    if (!api.query.kylinOcwModule || !api.query.kylinOcwModule.requestedOffchainData) {
+      // not found kylinOcwModule modules
+      return
+    }
+    // replace dataId
+    let dataId = 10000001;
+    api.query.kylinOcwModule.requestedOffchainData(dataId).then((res) => {
+      console.info("requestedOffchainData", res);
+      setDataSource({
+        dataId: dataId,
+        url: res["url"].toString(),
+        data: res["data"].toString(),
+      });
+      console.info("DataSource", res["url"].toString(), res["data"].toString());
+    }).catch(console.error);
   };
 
   if (!Object.keys(dataSource).length) {
