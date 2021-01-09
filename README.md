@@ -15,3 +15,8 @@ To get started -
 5. Build `yarn www:build`
 6. Ready! Now you can launch the UI (assuming you have a local Polkadot Node running), via `yarn run start`
 7. Access the UI via [http://localhost:3000](http://localhost:3000)
+
+
+## Production
+
+Run `yarn && NODE_ENV=production yarn build:www`
