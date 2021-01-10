@@ -12,10 +12,9 @@ interface Props {
 function Main({ className = "" }: Props): React.ReactElement<Props> | null {
   const [dataSource, setDataSource] = useState<DataSource>({});
   console.log("dataSource...", dataSource);
-
+  const { api } = useApi();
   const _onQuery = (): void => {
     // fetch data
-    const { api } = useApi();
     console.info("api info", api, api.query.kylinOcwModule);
     if (!api.query.kylinOcwModule || !api.query.kylinOcwModule.requestedOffchainData) {
       // not found kylinOcwModule modules
