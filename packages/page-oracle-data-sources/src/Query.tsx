@@ -38,7 +38,7 @@ function Query({ className = "", value: propsValue, onQuery }: Props): React.Rea
   }, [isValid, value]);
 
   return (
-    <FilterOverlay className={`ui--FilterOverlay ${className}`}>
+    <FilterOverlay className={`ui--FilterOverlay ${className}`} showOnPhone>
       <Input
         className="dataSource--query"
         defaultValue={propsValue}

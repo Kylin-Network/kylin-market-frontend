@@ -10,6 +10,7 @@ import { ThemeProps } from './types';
 interface Props {
   children: React.ReactNode;
   className?: string;
+  showOnPhone?: boolean;
 }
 
 function FilterOverlay ({ children, className }: Props): React.ReactElement<Props> {
@@ -21,10 +22,10 @@ function FilterOverlay ({ children, className }: Props): React.ReactElement<Prop
 }
 
 export default React.memo(styled(FilterOverlay)`
-  display: none;
+  display: ${props => props.showOnPhone ? "display" : "none"};
 
   .ui--Labelled label {
-    display: none;
+    display: ${props => props.showOnPhone ? "display" : "none"};
   }
   right: calc(50% - ${({ theme }: ThemeProps) => theme.contentHalfWidth} + 1.5rem);
   
