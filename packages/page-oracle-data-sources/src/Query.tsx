@@ -33,7 +33,7 @@ function Query({ className = "", value: propsValue, onQuery }: Props): React.Rea
   const _onQuery = useCallback((): void => {
     if (isValid && value.length !== 0) {
       // fetch data
-      onQuery && onQuery();
+      onQuery && onQuery(value);
     }
   }, [isValid, value]);
 

@@ -13,16 +13,14 @@ function Main({ className = "" }: Props): React.ReactElement<Props> | null {
   const [dataSource, setDataSource] = useState<DataSource>({});
   console.log("dataSource...", dataSource);
   const { api } = useApi();
-  const _onQuery = (): void => {
+  const _onQuery = (dataId: any): void => {
     // fetch data
-    console.info("api info", api, api.query.kylinOcwModule);
-    if (!api.query.kylinOcwModule || !api.query.kylinOcwModule.requestedOffchainData) {
-      // not found kylinOcwModule modules
+    console.info("api info", api, api.query.kylinOracleModule);
+    if (!api.query.kylinOracleModule || !api.query.kylinOracleModule.requestedOffchainData) {
+      // not found kylinOracleModule modules
       return
     }
-    // replace dataId
-    let dataId = 10000001;
-    api.query.kylinOcwModule.requestedOffchainData(dataId).then((res) => {
+    api.query.kylinOracleModule.requestedOffchainData(dataId).then((res) => {
       console.info("requestedOffchainData", res);
       setDataSource({
         dataId: dataId,
