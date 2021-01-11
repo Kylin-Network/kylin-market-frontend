@@ -9210,9 +9210,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"gauge@npm:^v2.7.4, gauge@npm:~2.7.3":
-  version: 2.7.4
-  resolution: "gauge@npm:2.7.4"
+"gauge@npm:^v3.0.0, gauge@npm:~3.0.0":
+  version: 3.0.0
+  resolution: "gauge@npm:3.0.0"
   dependencies:
     aproba: ^1.0.3
     console-control-strings: ^1.0.0
@@ -9362,7 +9362,7 @@ fsevents@~2.1.2:
     chalk: ^4.1.0
     changelog-parser: ^2.0.0
     deep-extend: ^0.6.0
-    gauge: ^v2.7.4
+    gauge: ^v3.0.0
     gh-release-assets: ^2.0.0
     ghauth: ^5.0.0
     github-url-to-object: ^4.0.4
@@ -13598,7 +13598,7 @@ fsevents@~2.1.2:
   dependencies:
     are-we-there-yet: ~1.1.2
     console-control-strings: ~1.1.0
-    gauge: ~2.7.3
+    gauge: ~3.0.0
     set-blocking: ~2.0.0
   checksum: 0cd63f127c1bbda403a112e83b11804aaee2b58b0bc581c3bde9b82e4d957c7ed0ad3bee499af706cdd3599bb93669d7cbbf29fb500407d35fe75687ac96e2c0
   languageName: node
