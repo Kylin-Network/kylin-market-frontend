@@ -11339,9 +11339,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"jest-docblock@npm:^25.3.0":
-  version: 25.3.0
-  resolution: "jest-docblock@npm:25.3.0"
+"jest-docblock@npm:^26.0.0":
+  version: 26.0.0
+  resolution: "jest-docblock@npm:26.0.0"
   dependencies:
     detect-newline: ^3.0.0
   checksum: 54b8ea1c8445a4b15e9ee5035f1bd60b0d492b87258995133a1b5df43a07803c93b54e8adaa45eae05778bd61ad57745491c625e7aa65198a9aa4f0c79030b56
@@ -11557,7 +11557,7 @@ fsevents@~2.1.2:
     exit: ^0.1.2
     graceful-fs: ^4.2.4
     jest-config: ^26.6.3
-    jest-docblock: ^25.3.0
+    jest-docblock: ^26.0.0
     jest-haste-map: ^26.6.2
     jest-leak-detector: ^26.6.2
     jest-message-util: ^26.6.2
