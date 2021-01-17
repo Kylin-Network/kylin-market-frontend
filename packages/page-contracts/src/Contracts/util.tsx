@@ -25,6 +25,7 @@ export function getContractMethodFn (callContract: Contract | null, callMethodIn
 }
 
 export function getContractForAddress (api: ApiPromise, address: StringOrNull): Contract | null {
+  console.info("getContractForAddress", api, address);
   if (!address) {
     return null;
   } else {

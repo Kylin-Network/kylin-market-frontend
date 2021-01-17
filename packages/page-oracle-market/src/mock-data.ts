@@ -5,12 +5,14 @@ import BN from "bn.js";
 import { BN_ZERO } from "@polkadot/util";
 import { getContractForAddress } from "@polkadot/app-contracts/Contracts/util";
 import { useState, useEffect } from "react";
+import store from "store";
 
 export function useServices(initialValue: Service[] = []) {
   const [accountId] = useAccountId();
   const [services, setServices] = useState<Service[]>(initialValue);
   const { api } = useApi();
-  const contract: any = getContractForAddress(api, "5D7VRXWDyZxj9HfPVcBcACPxesUJAMWoHtwaNbhVzcATdKTH");
+  let innerTypes = store.get('types');
+  const contract: any = getContractForAddress(api, innerTypes.OracleMarketAddress);
   const weight = useWeight();
   const [value] = useFormField<BN>(BN_ZERO);
 
@@ -29,19 +31,25 @@ export function useServices(initialValue: Service[] = []) {
       return await contract.read(message, data, ...params).send(accountId);
     }
 
+    function validResult(result): boolean{
+      for (let v of result) {
+        if (!v || !v.output || v.result.isErr) {
+          return false;
+        }
+      }
+      return true;
+    }
+
     async function initialServices() {
       let items: Service[] = [];
-      for (let i = 1000000; i < 1000020; i++) {
+      for (let i = 10000000; i < 10000020; i++) {
         let params = [i];
         // let urls = await Promise.all([queryInfo(10, params), queryInfo(2, params)]);
         // 1 owner 2 name 3 desc 4 thumb
         const result = await Promise.all([queryInfo(2, params), queryInfo(3, params), queryInfo(4, params)]);
-        for (let v of result) {
-          if (!v || !v.output || v.result.isErr) {
-            console.info("not found service", i);
-            setServices(items);
-            return;
-          }
+        if (!validResult(result)) {
+          console.info("not found service", i);
+          continue
         }
         let item = {
           serviceName: parseContractHex(result[0].output.toHex()),
@@ -64,7 +72,8 @@ export function useService(query: number) {
   const [accountId] = useAccountId();
   const [service, setService] = useState<Service>();
   const { api } = useApi();
-  const contract: any = getContractForAddress(api, "5D7VRXWDyZxj9HfPVcBcACPxesUJAMWoHtwaNbhVzcATdKTH");
+  let innerTypes = store.get('types');
+  const contract: any = getContractForAddress(api, innerTypes.OracleMarketAddress);
   const weight = useWeight();
   const [value] = useFormField<BN>(BN_ZERO);
 
