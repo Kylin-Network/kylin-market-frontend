@@ -3374,7 +3374,7 @@ __metadata:
   version: 26.0.19
   resolution: "@types/jest@npm:26.0.19"
   dependencies:
-    jest-diff: ^26.0.0
+    jest-diff: ^24.9.0
     pretty-format: ^26.0.0
   checksum: 98c8daaf89ca79823461818c1c22d337354e250a135e0314ba1a49e615620c8e2f54c5b900ba8554bf853919c97538f9a38b5af00cea83fd715ee2e6d75e04b8
   languageName: node
@@ -9210,9 +9210,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"gauge@npm:^v2.7.4, gauge@npm:~2.7.3":
-  version: 2.7.4
-  resolution: "gauge@npm:2.7.4"
+"gauge@npm:^v3.0.0, gauge@npm:~3.0.0":
+  version: 3.0.0
+  resolution: "gauge@npm:3.0.0"
   dependencies:
     aproba: ^1.0.3
     console-control-strings: ^1.0.0
@@ -9362,7 +9362,7 @@ fsevents@~2.1.2:
     chalk: ^4.1.0
     changelog-parser: ^2.0.0
     deep-extend: ^0.6.0
-    gauge: ^v2.7.4
+    gauge: ^v3.0.0
     gh-release-assets: ^2.0.0
     ghauth: ^5.0.0
     github-url-to-object: ^4.0.4
@@ -11327,9 +11327,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"jest-diff@npm:^26.0.0, jest-diff@npm:^26.6.2":
-  version: 26.6.2
-  resolution: "jest-diff@npm:26.6.2"
+"jest-diff@npm:^24.9.0, jest-diff@npm:^24.9.0":
+  version: 24.9.0
+  resolution: "jest-diff@npm:24.9.0"
   dependencies:
     chalk: ^4.0.0
     diff-sequences: ^26.6.2
@@ -11339,9 +11339,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"jest-docblock@npm:^26.0.0":
-  version: 26.0.0
-  resolution: "jest-docblock@npm:26.0.0"
+"jest-docblock@npm:^25.3.0":
+  version: 25.3.0
+  resolution: "jest-docblock@npm:25.3.0"
   dependencies:
     detect-newline: ^3.0.0
   checksum: 54b8ea1c8445a4b15e9ee5035f1bd60b0d492b87258995133a1b5df43a07803c93b54e8adaa45eae05778bd61ad57745491c625e7aa65198a9aa4f0c79030b56
@@ -11463,7 +11463,7 @@ fsevents@~2.1.2:
   resolution: "jest-matcher-utils@npm:26.6.2"
   dependencies:
     chalk: ^4.0.0
-    jest-diff: ^26.6.2
+    jest-diff: ^24.9.0
     jest-get-type: ^26.3.0
     pretty-format: ^26.6.2
   checksum: c6db72f19e90d8c3b3f949bc174e4a1b95db5973080eaf716b69df0069faa9b9da2de4502cf9b5c1376387b49705611259f45f04efb7dfc3deb72bcf3602a6a1
@@ -11557,7 +11557,7 @@ fsevents@~2.1.2:
     exit: ^0.1.2
     graceful-fs: ^4.2.4
     jest-config: ^26.6.3
-    jest-docblock: ^26.0.0
+    jest-docblock: ^25.3.0
     jest-haste-map: ^26.6.2
     jest-leak-detector: ^26.6.2
     jest-message-util: ^26.6.2
@@ -11629,7 +11629,7 @@ fsevents@~2.1.2:
     chalk: ^4.0.0
     expect: ^26.6.2
     graceful-fs: ^4.2.4
-    jest-diff: ^26.6.2
+    jest-diff: ^24.9.0
     jest-get-type: ^26.3.0
     jest-haste-map: ^26.6.2
     jest-matcher-utils: ^26.6.2
@@ -13598,7 +13598,7 @@ fsevents@~2.1.2:
   dependencies:
     are-we-there-yet: ~1.1.2
     console-control-strings: ~1.1.0
-    gauge: ~2.7.3
+    gauge: ~3.0.0
     set-blocking: ~2.0.0
   checksum: 0cd63f127c1bbda403a112e83b11804aaee2b58b0bc581c3bde9b82e4d957c7ed0ad3bee499af706cdd3599bb93669d7cbbf29fb500407d35fe75687ac96e2c0
   languageName: node
