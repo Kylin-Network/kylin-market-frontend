@@ -42,6 +42,24 @@ export function useServices(initialValue: Service[] = []) {
 
     async function initialServices() {
       let items: Service[] = [];
+      for (let i = 1000000; i < 1000020; i++) {
+        let params = [i];
+        // let urls = await Promise.all([queryInfo(10, params), queryInfo(2, params)]);
+        // 1 owner 2 name 3 desc 4 thumb
+        const result = await Promise.all([queryInfo(2, params), queryInfo(3, params), queryInfo(4, params)]);
+        if (!validResult(result)) {
+          console.info("not found service", i);
+          continue
+        }
+        let item = {
+          serviceName: parseContractHex(result[0].output.toHex()),
+          serviceDataId: i,
+          serviceDesc: parseContractHex(result[1].output.toHex()),
+          serviceThumb: parseContractHex(result[2].output.toHex()),
+        };
+        console.info("item", item);
+        items.push(item);
+      }
       for (let i = 10000000; i < 10000020; i++) {
         let params = [i];
         // let urls = await Promise.all([queryInfo(10, params), queryInfo(2, params)]);
