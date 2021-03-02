@@ -1,11 +1,11 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
 import type { ElectionStatus } from '@polkadot/types/interfaces';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -13,11 +13,11 @@ import styled from 'styled-components';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
-import { isFunction } from '@polkadot/util';
 
 import basicMd from './md/basic.md';
 import Summary from './Overview/Summary';
 import Actions from './Actions';
+import ActionsBanner from './ActionsBanner';
 import { STORE_FAVS_BASE } from './constants';
 import Overview from './Overview';
 import Payouts from './Payouts';
@@ -38,12 +38,13 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
+  const [withLedger, setWithLedger] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const ownStashes = useOwnStashInfos();
-  const slashes = useAvailableSlashes();
-  const targets = useSortedTargets(favorites);
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
   const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, undefined, transformElection);
+  const ownStashes = useOwnStashInfos();
+  const slashes = useAvailableSlashes();
+  const targets = useSortedTargets(favorites, withLedger);
 
   const hasQueries = useMemo(
     () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
@@ -53,6 +54,11 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const ownValidators = useMemo(
     () => (ownStashes || []).filter(({ isStashValidating }) => isStashValidating),
     [ownStashes]
+  );
+
+  const toggleLedger = useCallback(
+    () => setWithLedger(true),
+    []
   );
 
   const items = useMemo(() => [
@@ -65,12 +71,10 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'actions',
       text: t<string>('Account actions')
     },
-    isFunction(api.query.staking.activeEra)
-      ? {
-        name: 'payout',
-        text: t<string>('Payouts')
-      }
-      : null,
+    api.query.staking.activeEra && {
+      name: 'payout',
+      text: t<string>('Payouts')
+    },
     {
       alias: 'returns',
       name: 'targets',
@@ -134,6 +138,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             stakingOverview={stakingOverview}
             targets={targets}
             toggleFavorite={toggleFavorite}
+            toggleLedger={toggleLedger}
           />
         </Route>
         <Route path={`${basePath}/waiting`}>
@@ -144,6 +149,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             stakingOverview={stakingOverview}
             targets={targets}
             toggleFavorite={toggleFavorite}
+            toggleLedger={toggleLedger}
           />
         </Route>
       </Switch>
@@ -153,6 +159,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         ownStashes={ownStashes}
         targets={targets}
       />
+      {basePath === pathname && hasAccounts && (ownStashes?.length === 0) && (
+        <ActionsBanner />
+      )}
       <Overview
         className={basePath === pathname ? '' : 'staking--hidden'}
         favorites={favorites}
@@ -197,6 +206,19 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
   .ui--Expander.stakeOver {
     .ui--Expander-summary {
       color: ${theme.colorError};
+
+    ${theme.theme === 'dark'
+    ? `
+        font-weight: bold;
+          .ui--FormatBalance-value {
+
+            > .ui--FormatBalance-postfix {
+              opacity: 1;
+            }
+          }
+    `
+    : ''};
+
     }
   }
 `));

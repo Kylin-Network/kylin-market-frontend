@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeDef } from '@polkadot/react-components/types';
@@ -11,7 +11,7 @@ import { ThemeProvider } from 'styled-components';
 import { Api } from '@polkadot/react-api';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
-import settings from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
 
 import Apps from './Apps';
 import { darkTheme, lightTheme } from './themes';
@@ -28,7 +28,7 @@ function createTheme ({ uiTheme }: { uiTheme: string }): ThemeDef {
 }
 
 function Root ({ store }: Props): React.ReactElement<Props> {
-  const [theme, setTheme] = useState(createTheme(settings));
+  const [theme, setTheme] = useState(() => createTheme(settings));
 
   useEffect((): void => {
     settings.on('change', (settings) => setTheme(createTheme(settings)));

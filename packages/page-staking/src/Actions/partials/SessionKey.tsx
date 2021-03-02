@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SessionInfo } from './types';
@@ -27,12 +27,16 @@ function SessionKey ({ className = '', controllerId, onChange, stashId, withSend
   const [keys, setKeys] = useState<string | null>(null);
 
   useEffect((): void => {
-    onChange({
-      sessionTx: isHex(keys)
-        // this is weird... :(
-        ? api.tx.session.setKeys(keys as any, EMPTY_PROOF)
-        : null
-    });
+    try {
+      onChange({
+        sessionTx: isHex(keys)
+          // this is weird... :(
+          ? api.tx.session.setKeys(keys as any, EMPTY_PROOF)
+          : null
+      });
+    } catch {
+      onChange({ sessionTx: null });
+    }
   }, [api, keys, onChange]);
 
   return (
