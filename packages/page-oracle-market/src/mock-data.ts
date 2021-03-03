@@ -12,7 +12,7 @@ export function useServices(initialValue: Service[] = []) {
   const [services, setServices] = useState<Service[]>(initialValue);
   const { api } = useApi();
   let innerTypes = store.get('types');
-  const contract: any = getContractForAddress(api, innerTypes.OracleMarketAddress);
+  const contract: any = getContractForAddress(api, innerTypes?.OracleMarketAddress);
   const weight = useWeight();
   const [value] = useFormField<BN>(BN_ZERO);
 
@@ -91,7 +91,7 @@ export function useService(query: number) {
   const [service, setService] = useState<Service>();
   const { api } = useApi();
   let innerTypes = store.get('types');
-  const contract: any = getContractForAddress(api, innerTypes.OracleMarketAddress);
+  const contract: any = getContractForAddress(api, innerTypes?.OracleMarketAddress);
   const weight = useWeight();
   const [value] = useFormField<BN>(BN_ZERO);
 
