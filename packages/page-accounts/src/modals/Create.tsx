@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { CreateResult } from '@polkadot/ui-keyring/types';
-import type { ModalProps } from '../types';
+import type { AddressState, CreateOptions, CreateProps, DeriveValidationOutput, PairType, SeedType } from '../types';
 
 import FileSaver from 'file-saver';
 import React, { useCallback, useRef, useState } from 'react';
@@ -21,44 +20,10 @@ import { hdLedger, hdValidatePath, keyExtractSuri, mnemonicGenerate, mnemonicVal
 
 import { useTranslation } from '../translate';
 import CreateConfirmation from './CreateConfirmation';
+import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath';
 import CreateSuriLedger from './CreateSuriLedger';
 import ExternalWarning from './ExternalWarning';
 import PasswordInput from './PasswordInput';
-
-const ETH_DEFAULT_PATH = "m/44'/60'/0'/0/0";
-
-type PairType = 'ecdsa' | 'ed25519' | 'ed25519-ledger' | 'ethereum' | 'sr25519';
-
-interface Props extends ModalProps {
-  className?: string;
-  onClose: () => void;
-  onStatusChange: (status: ActionStatus) => void;
-  seed?: string;
-  type?: PairType;
-}
-
-type SeedType = 'bip' | 'raw' | 'dev';
-
-interface AddressState {
-  address: string | null;
-  derivePath: string;
-  deriveValidation? : DeriveValidationOutput
-  isSeedValid: boolean;
-  pairType: PairType;
-  seed: string;
-  seedType: SeedType;
-}
-
-interface CreateOptions {
-  genesisHash?: string;
-  name: string;
-  tags?: string[];
-}
-
-interface DeriveValidationOutput {
-  error?: string;
-  warning?: string;
-}
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;
@@ -200,7 +165,7 @@ function createAccount (seed: string, derivePath: string, pairType: PairType, { 
   return status;
 }
 
-function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
+function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: CreateProps): React.ReactElement<CreateProps> {
   const { t } = useTranslation();
   const { api, isDevelopment, isEthereum } = useApi();
   const { isLedgerEnabled } = useLedger();
@@ -307,63 +272,56 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     >
       <Modal.Content>
         <Modal.Columns>
-          <Modal.Column>
-            <AddressRow
-              defaultName={name}
-              fullLength
-              isEditableName={false}
-              noDefaultNameOpacity
-              value={isSeedValid ? address : ''}
-            />
-          </Modal.Column>
+          <AddressRow
+            defaultName={name}
+            fullLength
+            isEditableName={false}
+            noDefaultNameOpacity
+            value={isSeedValid ? address : ''}
+          />
         </Modal.Columns>
         {step === 1 && <>
-          <Modal.Columns>
-            <Modal.Column>
-              <TextArea
-                help={isEthereum
-                  ? t<string>("Your ethereum key pair is derived from your private key. Don't divulge this key.")
-                  : t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
-                isAction
-                isError={!isSeedValid}
-                isReadOnly={seedType === 'dev'}
-                label={
-                  seedType === 'bip'
-                    ? t<string>('mnemonic seed')
-                    : seedType === 'dev'
-                      ? t<string>('development seed')
-                      : isEthereum
-                        ? t<string>('ethereum private key')
-                        : t<string>('seed (hex or string)')
-                }
-                onChange={_onChangeSeed}
-                seed={seed}
-                withLabel
-              >
-                <CopyButton
-                  className='copyMoved'
-                  type={seedType === 'bip' ? t<string>('mnemonic') : seedType === 'raw' ? isEthereum ? t<string>('private key') : 'seed' : t<string>('raw seed')}
-                  value={seed}
-                />
-                <Dropdown
-                  defaultValue={seedType}
-                  isButton
-                  onChange={_selectSeedType}
-                  options={seedOpt.current}
-                />
-              </TextArea>
-            </Modal.Column>
-            <Modal.Column>
-              <p>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
-            </Modal.Column>
+          <Modal.Columns hint={t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}>
+            <TextArea
+              help={isEthereum
+                ? t<string>("Your ethereum key pair is derived from your private key. Don't divulge this key.")
+                : t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
+              isAction
+              isError={!isSeedValid}
+              isReadOnly={seedType === 'dev'}
+              label={
+                seedType === 'bip'
+                  ? t<string>('mnemonic seed')
+                  : seedType === 'dev'
+                    ? t<string>('development seed')
+                    : isEthereum
+                      ? t<string>('ethereum private key')
+                      : t<string>('seed (hex or string)')
+              }
+              onChange={_onChangeSeed}
+              seed={seed}
+              withLabel
+            >
+              <CopyButton
+                className='copyMoved'
+                type={seedType === 'bip' ? t<string>('mnemonic') : seedType === 'raw' ? isEthereum ? t<string>('private key') : 'seed' : t<string>('raw seed')}
+                value={seed}
+              />
+              <Dropdown
+                defaultValue={seedType}
+                isButton
+                onChange={_selectSeedType}
+                options={seedOpt.current}
+              />
+            </TextArea>
           </Modal.Columns>
           <Expander
             className='accounts--Creator-advanced'
             isPadded
             summary={t<string>('Advanced creation options')}
           >
-            <Modal.Columns>
-              <Modal.Column>
+            {
+              pairType !== 'ethereum' && <Modal.Columns hint={t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}>
                 <Dropdown
                   defaultValue={pairType}
                   help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
@@ -378,11 +336,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   }
                   tabIndex={-1}
                 />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}</p>
-              </Modal.Column>
-            </Modal.Columns>
+              </Modal.Columns>}
             {pairType === 'ed25519-ledger'
               ? (
                 <CreateSuriLedger
@@ -390,24 +344,32 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   seedType={seedType}
                 />
               )
-              : (
-                <Modal.Columns>
-                  <Modal.Column>
+              : pairType === 'ethereum'
+                ? (
+                  <CreateEthDerivationPath
+                    derivePath={derivePath}
+                    deriveValidation={deriveValidation}
+                    onChange={_onChangePath}
+                    seed={seed}
+                    seedType={seedType}
+                  />
+                )
+                : (
+                  <Modal.Columns hint={t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}>
                     <Input
-                      help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
+                      help={(t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.'))}
+                      isDisabled={seedType === 'raw'}
                       isError={!!deriveValidation?.error}
                       label={t<string>('secret derivation path')}
                       onChange={_onChangePath}
                       placeholder={
-                        pairType === 'ethereum'
-                          ? ETH_DEFAULT_PATH
-                          : seedType === 'raw'
-                            ? pairType === 'sr25519'
-                              ? t<string>('//hard/soft')
-                              : t<string>('//hard')
-                            : pairType === 'sr25519'
-                              ? t<string>('//hard/soft///password')
-                              : t<string>('//hard///password')
+                        seedType === 'raw'
+                          ? pairType === 'sr25519'
+                            ? t<string>('//hard/soft')
+                            : t<string>('//hard')
+                          : pairType === 'sr25519'
+                            ? t<string>('//hard/soft///password')
+                            : t<string>('//hard///password')
                       }
                       tabIndex={-1}
                       value={derivePath}
@@ -418,52 +380,39 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                     {deriveValidation?.warning && (
                       <MarkWarning content={errorIndex.current[deriveValidation.warning]} />
                     )}
-                  </Modal.Column>
-                  <Modal.Column>
-                    <p>{t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
-                  </Modal.Column>
-                </Modal.Columns>
-              )}
+                  </Modal.Columns>
+                )}
           </Expander>
           <Modal.Columns>
-            <Modal.Column>
-              <ExternalWarning />
-              <div className='saveToggle'>
-                <Checkbox
-                  label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
-                  onChange={_toggleMnemonicSaved}
-                  value={isMnemonicSaved}
-                />
-              </div>
-            </Modal.Column>
+            <ExternalWarning />
+            <div className='saveToggle'>
+              <Checkbox
+                label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
+                onChange={_toggleMnemonicSaved}
+                value={isMnemonicSaved}
+              />
+            </div>
           </Modal.Columns>
         </>}
         {step === 2 && <>
-          <Modal.Columns>
-            <Modal.Column>
-              <Input
-                autoFocus
-                help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-                isError={!isNameValid}
-                label={t<string>('name')}
-                onChange={_onChangeName}
-                onEnter={_onCommit}
-                placeholder={t<string>('new account')}
-                value={name}
-              />
-            </Modal.Column>
-            <Modal.Column>
-              <p>{t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}</p>
-            </Modal.Column>
+          <Modal.Columns hint={t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}>
+            <Input
+              autoFocus
+              help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+              isError={!isNameValid}
+              label={t<string>('name')}
+              onChange={_onChangeName}
+              onEnter={_onCommit}
+              placeholder={t<string>('new account')}
+              value={name}
+            />
           </Modal.Columns>
           <PasswordInput
             onChange={_onPasswordChange}
             onEnter={_onCommit}
           />
           <Modal.Columns>
-            <Modal.Column>
-              <ExternalWarning />
-            </Modal.Column>
+            <ExternalWarning />
           </Modal.Columns>
         </>}
         {step === 3 && address && (
@@ -523,7 +472,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   );
 }
 
-export default React.memo(styled(Create)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Create)`
   .accounts--Creator-advanced {
     margin-top: 1rem;
     overflow: visible;
@@ -551,8 +500,8 @@ export default React.memo(styled(Create)(({ theme }: ThemeProps) => `
       margin: 0.8rem 0;
 
       > label {
-          font-weight: ${theme.fontWeightNormal};
+        font-weight: var(--font-weight-normal);
       }
     }
   }
-`));
+`);

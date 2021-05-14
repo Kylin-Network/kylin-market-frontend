@@ -15,7 +15,7 @@ import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import BondExtra from './BondExtra';
@@ -60,7 +60,7 @@ const transformSpan = {
 
 function useStashCalls (api: ApiPromise, stashId: string) {
   const params = useMemo(() => [stashId], [stashId]);
-  const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all, params);
+  const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances?.all, params);
   const spanCount = useCall<number>(api.query.staking.slashingSpans, params, transformSpan);
   const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, params);
 
@@ -102,7 +102,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
     [api, controllerId, queueExtrinsic, spanCount]
   );
 
-  const hasBonded = !!stakingAccount?.stakingLedger && !stakingAccount.stakingLedger.active.isEmpty;
+  const hasBonded = !!stakingAccount?.stakingLedger && !stakingAccount.stakingLedger.active?.isEmpty;
 
   return (
     <tr className={className}>
@@ -292,7 +292,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                   {t<string>('Bond more funds')}
                 </Menu.Item>
                 <Menu.Item
-                  disabled={!isOwnController || !stakingAccount || !stakingAccount.stakingLedger || stakingAccount.stakingLedger.active.isEmpty}
+                  disabled={!isOwnController || !stakingAccount || !stakingAccount.stakingLedger || stakingAccount.stakingLedger.active?.isEmpty}
                   onClick={toggleUnbond}
                 >
                   {t<string>('Unbond funds')}
@@ -324,7 +324,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                     >
                       {t<string>('Change validator preferences')}
                     </Menu.Item>
-                    {api.tx.staking.kick && (
+                    {isFunction(api.tx.staking.kick) && (
                       <Menu.Item
                         disabled={!isOwnController}
                         onClick={toggleKick}

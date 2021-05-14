@@ -3,29 +3,6 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-// structs need to be in order
-/* eslint-disable sort-keys */
+import { typeBundleForPolkadot } from '@kiltprotocol/type-definitions';
 
-const definitions: OverrideBundleDefinition = {
-  types: [
-    {
-      // on all versions
-      minmax: [0, undefined],
-      types: {
-        Address: 'AccountId',
-        BlockNumber: 'u64',
-        DelegationNodeId: 'Hash',
-        ErrorCode: 'u16',
-        Index: 'u64',
-        LookupSource: 'AccountId',
-        Permissions: 'u32',
-        PublicBoxKey: 'Hash',
-        PublicSigningKey: 'Hash',
-        RefCount: 'u8',
-        Signature: 'MultiSignature'
-      }
-    }
-  ]
-};
-
-export default definitions;
+export default typeBundleForPolkadot as unknown as OverrideBundleDefinition;

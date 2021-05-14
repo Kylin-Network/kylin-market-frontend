@@ -12,6 +12,7 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
+        AccountInfo: 'AccountInfoWithProviders',
         AuthorityId: 'AccountId',
         AuthorityVote: 'u32',
         ChallengeGameOf: {
@@ -42,7 +43,7 @@ const definitions: OverrideBundleDefinition = {
           individual: 'BTreeMap<AccountId, Balance>',
           total: 'Balance'
         },
-        Keys: 'SessionKeys2',
+        Keys: 'SessionKeys3',
         Lockdrop: {
           duration: 'u64',
           public_key: '[u8; 33]',
@@ -75,6 +76,12 @@ const definitions: OverrideBundleDefinition = {
         Schedule: {
           putCodePerByteCost: 'Weight',
           version: 'u32'
+        },
+        SmartContract: {
+          _enum: {
+            Wasm: 'AccountId',
+            Evm: 'H160'
+          }
         },
         StakingParameters: {
           canBeNominated: 'bool',

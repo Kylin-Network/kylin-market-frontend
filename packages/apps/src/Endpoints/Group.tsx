@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { Group } from './types';
 
 import React, { useCallback } from 'react';
@@ -23,7 +22,7 @@ interface Props {
   value: Group;
 }
 
-function GroupDisplay ({ affinities, apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, networks } }: Props): React.ReactElement<Props> {
+function GroupDisplay ({ affinities, apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
   const _setGroup = useCallback(
     () => setGroup(isSelected ? -1 : index),
     [index, isSelected, setGroup]
@@ -32,7 +31,7 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', index, is
   return (
     <div className={`${className}${isSelected ? ' isSelected' : ''}`}>
       <div
-        className='groupHeader'
+        className={`groupHeader${isSpaced ? ' isSpaced' : ''}`}
         onClick={_setGroup}
       >
         <Icon icon={isSelected ? 'caret-up' : 'caret-down'} />
@@ -58,7 +57,7 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', index, is
   );
 }
 
-export default React.memo(styled(GroupDisplay)(({ theme }: ThemeProps) => `
+export default React.memo(styled(GroupDisplay)`
   .groupHeader {
     border-radius: 0.25rem;
     cursor: pointer;
@@ -68,7 +67,11 @@ export default React.memo(styled(GroupDisplay)(({ theme }: ThemeProps) => `
     text-transform: uppercase;
 
     &:hover {
-      background: ${theme.bgTable};
+      background: var(--bg-table);
+    }
+
+    &.isSpaced {
+      margin-top: 0.75rem;
     }
 
     .ui--Icon {
@@ -79,4 +82,4 @@ export default React.memo(styled(GroupDisplay)(({ theme }: ThemeProps) => `
   .groupNetworks {
     padding: 0.25rem 0 0.5rem 1rem;
   }
-`));
+`);

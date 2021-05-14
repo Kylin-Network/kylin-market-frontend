@@ -8,10 +8,8 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { AddressSmall, Icon } from '@polkadot/react-components';
-import { ThemeProps } from '@polkadot/react-components/types';
 
 import { getProposalToDisplay } from './helpers/extendedStatuses';
-import { bountyLabelColor } from './theme';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -58,9 +56,9 @@ function VotersColumn ({ className, option, proposals, status }: Props): React.R
   );
 }
 
-export default React.memo(styled(VotersColumn)(({ theme }: ThemeProps) => `
+export default React.memo(styled(VotersColumn)`
   width: 50%;
-  
+
   .vote-numbers {
     display: flex;
     align-items: center;
@@ -69,7 +67,7 @@ export default React.memo(styled(VotersColumn)(({ theme }: ThemeProps) => `
 
   .vote-numbers-icon svg {
     max-width: 10px;
-    color: ${bountyLabelColor[theme.theme]};
+    color: var(--color-label);
   }
 
   .vote-numbers-label {
@@ -78,6 +76,6 @@ export default React.memo(styled(VotersColumn)(({ theme }: ThemeProps) => `
     font-size: 0.7rem;
     line-height: 0.85rem;
     text-transform: uppercase;
-    color: ${theme.colorLabel};
+    color: var(--color-label);
   }
-`));
+`);
